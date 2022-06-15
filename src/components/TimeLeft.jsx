@@ -1,54 +1,20 @@
-import { useEffect, useState } from 'react';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 import { ReactComponent as StartIcon } from './icons/startIcon.svg';
 import { ReactComponent as StopIcon } from './icons/stopIcon.svg';
+import { ReactComponent as RefreshButton } from './icons/refreshButton.svg';
 
 momentDurationFormatSetup(moment);
 
-const TimeLeft = ({ sessionLength, breakLength }) => {
-	const [ type, setType ] = useState('session');
-	const [ intervalId, setIntervalId ] = useState(null);
-	const [ timeLeft, setTimeLeft ] = useState(sessionLength);
-
-	useEffect(
-		() => {
-			setTimeLeft(sessionLength);
-		},
-		[ sessionLength ]
-	);
-	const isRunning = intervalId !== null;
-	const handleTimerClick = () => {
-		if (isRunning) {
-			clearInterval(intervalId);
-			setIntervalId(null);
-		} else {
-			const newIntervalId = setInterval(() => {
-				setTimeLeft(prevTimeLeft => {
-					const newTimeLeft = prevTimeLeft - 1;
-					if (newTimeLeft >= 0) {
-						return prevTimeLeft - 1;
-					}
-
-					if (type === 'session') {
-						setType('break');
-						setTimeLeft(breakLength);
-					}
-
-					if (type === 'break') {
-						setType('session');
-						setTimeLeft(sessionLength);
-					}
-				});
-			}, 100);
-			setIntervalId(newIntervalId);
-		}
-	};
-
+const TimeLeft = ({ timeLeft, isRunning, resetTimer, type, handleTimerClick }) => {
 	const displayTimeLeft = moment.duration(timeLeft, 's').format('mm:ss', { trim: false });
 
 	return (
-		<div className="text-3xl flex flex-col items-center gap-2">
+		<div className="w-full text-3xl flex flex-col items-center gap-5">
+			<RefreshButton
+				className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700 self-end mr-5"
+				onClick={resetTimer}
+			/>
 			<p id="timer-label">
 				{type === 'session' && 'Study'}
 				{type === 'break' && 'Break'}
