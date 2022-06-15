@@ -3,7 +3,6 @@ import momentDurationFormatSetup from 'moment-duration-format';
 import { ReactComponent as StartIcon } from './icons/startIcon.svg';
 import { ReactComponent as StopIcon } from './icons/stopIcon.svg';
 import { ReactComponent as RefreshButton } from './icons/refreshButton.svg';
-
 momentDurationFormatSetup(moment);
 
 const TimeLeft = ({ timeLeft, isRunning, resetTimer, type, handleTimerClick }) => {
