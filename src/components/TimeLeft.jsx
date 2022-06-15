@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
+import { ReactComponent as StartIcon } from './icons/startIcon.svg';
+import { ReactComponent as StopIcon } from './icons/stopIcon.svg';
 
 momentDurationFormatSetup(moment);
 
-const TimeLeft = ({ sessionLength }) => {
+const TimeLeft = ({ sessionLength, breakLength }) => {
+	const [ type, setType ] = useState('session');
 	const [ intervalId, setIntervalId ] = useState(null);
 	const [ timeLeft, setTimeLeft ] = useState(sessionLength);
 
@@ -25,9 +28,19 @@ const TimeLeft = ({ sessionLength }) => {
 					const newTimeLeft = prevTimeLeft - 1;
 					if (newTimeLeft >= 0) {
 						return prevTimeLeft - 1;
-					} else return prevTimeLeft;
+					}
+
+					if (type === 'session') {
+						setType('break');
+						setTimeLeft(breakLength);
+					}
+
+					if (type === 'break') {
+						setType('session');
+						setTimeLeft(sessionLength);
+					}
 				});
-			}, 1000);
+			}, 100);
 			setIntervalId(newIntervalId);
 		}
 	};
@@ -35,15 +48,26 @@ const TimeLeft = ({ sessionLength }) => {
 	const displayTimeLeft = moment.duration(timeLeft, 's').format('mm:ss', { trim: false });
 
 	return (
-		<div>
-			<p id="timer-label">Session</p>
-			<p id="time-left">{displayTimeLeft}</p>
-			<button
-				className="w-10 py-2 text-sm transition-colors duration-300 border-2 rounded-full shadow-xl text-amber-700 border-amber-400 shadow-amber-500/30 hover:bg-amber-500 hover:text-amber-100"
-				onClick={handleTimerClick}
-			>
-				{isRunning ? 'stop' : 'start'}
-			</button>
+		<div className="text-3xl flex flex-col items-center gap-2">
+			<p id="timer-label">
+				{type === 'session' && 'Study'}
+				{type === 'break' && 'Break'}
+			</p>
+			<p className="text-8xl font-bold" id="time-left">
+				{displayTimeLeft}
+			</p>
+
+			{isRunning ? (
+				<StopIcon
+					className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700"
+					onClick={handleTimerClick}
+				/>
+			) : (
+				<StartIcon
+					className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700"
+					onClick={handleTimerClick}
+				/>
+			)}
 		</div>
 	);
 };
