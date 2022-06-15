@@ -3,15 +3,16 @@ import { ReactComponent as PlusIcon } from './icons/plusIcon.svg';
 import { ReactComponent as MinusIcon } from './icons/minusIcon.svg';
 
 const Break = ({ breakLength, breakDecrement, breakIncrement }) => {
-	const displayBreakLength = moment.duration(breakLength, 's').minutes();
+	const displayBreakLength = moment.duration(breakLength, 's').asMinutes();
 
 	return (
 		<div class="w-1/2 flex justify-center items-center gap-x-2" role="group">
-			<MinusIcon
-				id="break-decrement"
-				className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700"
-				onClick={breakDecrement}
-			/>
+			<button id="break-decrement">
+				<MinusIcon
+					className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700"
+					onClick={breakDecrement}
+				/>
+			</button>
 			<div>
 				<p className="text-center font-bold" id="break-label">
 					Break:
@@ -20,11 +21,12 @@ const Break = ({ breakLength, breakDecrement, breakIncrement }) => {
 					<span id="break-length">{displayBreakLength}</span> minutes
 				</p>
 			</div>
-			<PlusIcon
-				id="break-increment"
-				className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700"
-				onClick={breakIncrement}
-			/>
+			<button id="break-increment">
+				<PlusIcon
+					className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700"
+					onClick={breakIncrement}
+				/>
+			</button>
 		</div>
 	);
 };

@@ -3,15 +3,17 @@ import { ReactComponent as PlusIcon } from './icons/plusIcon.svg';
 import { ReactComponent as MinusIcon } from './icons/minusIcon.svg';
 
 const Session = ({ sessionLength, sessionDecrement, sessionIncrement }) => {
-	const displaySessionLength = moment.duration(sessionLength, 's').minutes();
+	const displaySessionLength = moment.duration(sessionLength, 's').asMinutes();
 
 	return (
 		<div class="w-1/2 flex justify-center items-center gap-x-2" role="group">
-			<MinusIcon
-				id="session-decrement"
-				className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700"
-				onClick={sessionDecrement}
-			/>
+			<button id="session-decrement">
+				<MinusIcon
+					className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700"
+					onClick={sessionDecrement}
+				/>
+			</button>
+
 			<div>
 				<p className="text-center font-bold" id="session-label">
 					Study for:
@@ -20,11 +22,12 @@ const Session = ({ sessionLength, sessionDecrement, sessionIncrement }) => {
 					<span id="session-length">{displaySessionLength}</span> minutes
 				</p>
 			</div>
-			<PlusIcon
-				id="session-increment"
-				className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700"
-				onClick={sessionIncrement}
-			/>
+			<button id="session-increment">
+				<PlusIcon
+					className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700"
+					onClick={sessionIncrement}
+				/>
+			</button>
 		</div>
 	);
 };
