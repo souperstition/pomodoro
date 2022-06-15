@@ -1,5 +1,8 @@
+import Wrapper from './components/Wrapper';
+import './index.css';
+
 function App() {
-	return <div>pomodoro</div>;
+	return <Wrapper />;
 }
 
 export default App;
