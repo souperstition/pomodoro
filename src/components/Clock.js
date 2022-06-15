@@ -36,14 +36,17 @@ const Clock = () => {
 	};
 
 	return (
-		<div className="bg-amber-200 w-1/2 h-1/2 flex justify-center items-center rounded-3xl drop-shadow-lg gap-4">
-			<Break breakLength={breakLength} breakDecrement={breakDecrement} breakIncrement={breakIncrement} />
-			<TimeLeft sessionLength={sessionLength} />
-			<Session
-				sessionLength={sessionLength}
-				sessionDecrement={sessionDecrement}
-				sessionIncrement={sessionIncrement}
-			/>
+		<div className="bg-amber-200 w-3/4 md:w-1/2 h-1/2 flex flex-col justify-evenly p-5 items-center rounded-3xl drop-shadow-lg gap-4">
+			<TimeLeft sessionLength={sessionLength} breakLength={breakLength} />
+			<div className="w-full flex flex-row justify-evenly gap-10">
+				<Break breakLength={breakLength} breakDecrement={breakDecrement} breakIncrement={breakIncrement} />
+
+				<Session
+					sessionLength={sessionLength}
+					sessionDecrement={sessionDecrement}
+					sessionIncrement={sessionIncrement}
+				/>
+			</div>
 		</div>
 	);
 };
