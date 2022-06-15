@@ -1,50 +1,45 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Break from './Break';
 import Session from './Session';
 import TimeLeft from './TimeLeft';
 
 const Clock = () => {
+	const audioFile = useRef(null);
 	const [ sessionLength, setSessionLength ] = useState(60 * 25);
 	const [ breakLength, setBreakLength ] = useState(300);
 	const [ type, setType ] = useState('session');
 	const [ intervalId, setIntervalId ] = useState(null);
 	const [ timeLeft, setTimeLeft ] = useState(sessionLength);
 
-	useEffect(
-		() => {
-			if (type === 'session') {
-				setTimeLeft(sessionLength);
-			}
-		},
-		[ sessionLength, type ]
-	);
-
 	// session buttons:
 	const sessionDecrement = () => {
 		const newSessionLength = sessionLength - 60;
-		if (newSessionLength < 0) {
-			setSessionLength(0);
-		} else {
-			setSessionLength(sessionLength - 60);
+		if (newSessionLength > 0) {
+			setSessionLength(newSessionLength);
 		}
 	};
 	const sessionIncrement = () => {
-		setSessionLength(sessionLength + 60);
+		const newSessionLength = sessionLength + 60;
+		if (newSessionLength <= 3600) {
+			setSessionLength(newSessionLength);
+		}
 	};
 
-	// break buttons:
+	// session buttons:
 	const breakDecrement = () => {
 		const newBreakLength = breakLength - 60;
-		if (newBreakLength < 0) {
-			setBreakLength(0);
-		} else {
-			setBreakLength(breakLength - 60);
+		if (newBreakLength > 0) {
+			setBreakLength(newBreakLength);
 		}
 	};
 	const breakIncrement = () => {
-		setBreakLength(breakLength + 60);
+		const newBreakLength = breakLength + 60;
+		if (newBreakLength <= 3600) {
+			setBreakLength(newBreakLength);
+		}
 	};
 
+	// start/stop button
 	const isRunning = intervalId !== null;
 	const handleTimerClick = () => {
 		if (isRunning) {
@@ -52,23 +47,8 @@ const Clock = () => {
 			setIntervalId(null);
 		} else {
 			const newIntervalId = setInterval(() => {
-				setTimeLeft(prevTimeLeft => {
-					const newTimeLeft = prevTimeLeft - 1;
-					if (newTimeLeft >= 0) {
-						return prevTimeLeft - 1;
-					}
-
-					if (type === 'session') {
-						setType('break');
-						setTimeLeft(breakLength);
-					}
-
-					if (type === 'break') {
-						setType('session');
-						setTimeLeft(sessionLength);
-					}
-				});
-			}, 1000);
+				setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+			}, 50);
 			setIntervalId(newIntervalId);
 		}
 	};
@@ -80,7 +60,39 @@ const Clock = () => {
 		setBreakLength(300);
 		setSessionLength(60 * 25);
 		setType('session');
+		setTimeLeft(60 * 25);
+		audioFile.current.load();
 	};
+
+	useEffect(
+		() => {
+			if (type === 'session') {
+				setTimeLeft(() => sessionLength);
+			}
+
+			if (type === 'break') {
+				setTimeLeft(() => breakLength);
+			}
+		},
+		[ sessionLength, type, breakLength ]
+	);
+
+	useEffect(
+		() => {
+			if (timeLeft === 0) {
+				audioFile.current.play();
+				if (type === 'session') {
+					setType('break');
+					setTimeLeft(breakLength);
+				} else if (type === 'break') {
+					setType('session');
+					setTimeLeft(sessionLength);
+				}
+				audioFile.current.load();
+			}
+		},
+		[ breakLength, type, sessionLength, timeLeft ]
+	);
 
 	return (
 		<div className="bg-amber-200 w-3/4 md:w-1/2 h-1/2 flex flex-col justify-between py-5 items-center rounded-3xl drop-shadow-lg gap-8">
@@ -99,6 +111,9 @@ const Clock = () => {
 					sessionDecrement={sessionDecrement}
 					sessionIncrement={sessionIncrement}
 				/>
+				<audio id="beep" ref={audioFile}>
+					<source src="" type="audio/mpeg" />
+				</audio>
 			</div>
 		</div>
 	);
