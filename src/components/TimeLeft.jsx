@@ -12,7 +12,8 @@ const TimeLeft = ({ timeLeft, isRunning, resetTimer, type, handleTimerClick }) =
 	return (
 		<div className="w-full text-3xl flex flex-col items-center gap-5">
 			<RefreshButton
-				className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700 self-end mr-5"
+				id="reset"
+				className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700 self-end mr-5 mb-5"
 				onClick={resetTimer}
 			/>
 			<p id="timer-label">

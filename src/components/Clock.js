@@ -68,7 +68,7 @@ const Clock = () => {
 						setTimeLeft(sessionLength);
 					}
 				});
-			}, 100);
+			}, 1000);
 			setIntervalId(newIntervalId);
 		}
 	};
