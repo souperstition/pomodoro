@@ -3,12 +3,12 @@ import Break from './Break';
 import Session from './Session';
 import TimeLeft from './TimeLeft';
 
-const Clock = () => {
-	const audioFile = useRef(null);
+const Clock: React.FC = () => {
+	const audioFile = useRef<HTMLAudioElement>(null);
 	const [ sessionLength, setSessionLength ] = useState(60 * 25);
 	const [ breakLength, setBreakLength ] = useState(300);
 	const [ type, setType ] = useState('session');
-	const [ intervalId, setIntervalId ] = useState(null);
+	const [ intervalId, setIntervalId ] = useState<NodeJS.Timeout | null>(null);
 	const [ timeLeft, setTimeLeft ] = useState(sessionLength);
 
 	useEffect(
@@ -42,19 +42,21 @@ const Clock = () => {
 
 	// reset button:
 	const resetTimer = () => {
-		clearInterval(intervalId);
+		if (intervalId !== null) {
+			clearInterval(intervalId);
+		}
 		setIntervalId(null);
 		setBreakLength(300);
 		setSessionLength(60 * 25);
 		setType('session');
 		setTimeLeft(60 * 25);
-		audioFile.current.load();
+		audioFile?.current?.load();
 	};
 
 	useEffect(
 		() => {
 			if (timeLeft === 0) {
-				audioFile.current.play();
+				audioFile?.current?.play();
 				if (type === 'session') {
 					setType('break');
 					setTimeLeft(breakLength);
@@ -62,7 +64,7 @@ const Clock = () => {
 					setType('session');
 					setTimeLeft(sessionLength);
 				}
-				return audioFile.current.load();
+				return audioFile?.current?.load();
 			}
 		},
 		[ breakLength, type, sessionLength, timeLeft ]

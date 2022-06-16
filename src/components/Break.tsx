@@ -2,7 +2,7 @@ import moment from 'moment';
 import { ReactComponent as PlusIcon } from './icons/plusIcon.svg';
 import { ReactComponent as MinusIcon } from './icons/minusIcon.svg';
 
-const Break = ({ breakLength, breakDecrement, breakIncrement }) => {
+const Break: React.FC<Props> = ({ breakLength, breakDecrement, breakIncrement }) => {
 	const displayBreakLength = moment.duration(breakLength, 's').asMinutes();
 
 	return (
@@ -23,6 +23,12 @@ const Break = ({ breakLength, breakDecrement, breakIncrement }) => {
 			</button>
 		</div>
 	);
+};
+
+type Props = {
+	breakLength: number;
+	breakDecrement: () => void;
+	breakIncrement: () => void;
 };
 
 export default Break;

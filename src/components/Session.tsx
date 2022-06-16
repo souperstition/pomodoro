@@ -2,7 +2,7 @@ import moment from 'moment';
 import { ReactComponent as PlusIcon } from './icons/plusIcon.svg';
 import { ReactComponent as MinusIcon } from './icons/minusIcon.svg';
 
-const Session = ({ sessionLength, sessionDecrement, sessionIncrement }) => {
+const Session: React.FC<Props> = ({ sessionLength, sessionDecrement, sessionIncrement }) => {
 	const displaySessionLength = moment.duration(sessionLength, 's').asMinutes();
 
 	return (
@@ -24,6 +24,12 @@ const Session = ({ sessionLength, sessionDecrement, sessionIncrement }) => {
 			</button>
 		</div>
 	);
+};
+
+type Props = {
+	sessionLength: number;
+	sessionDecrement: () => void;
+	sessionIncrement: () => void;
 };
 
 export default Session;
