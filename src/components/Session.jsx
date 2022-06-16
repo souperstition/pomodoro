@@ -7,11 +7,8 @@ const Session = ({ sessionLength, sessionDecrement, sessionIncrement }) => {
 
 	return (
 		<div className="w-1/2 flex justify-center items-center gap-x-2" role="group">
-			<button id="session-decrement">
-				<MinusIcon
-					className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700"
-					onClick={sessionDecrement}
-				/>
+			<button id="session-decrement" onClick={sessionDecrement}>
+				<MinusIcon className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700" />
 			</button>
 
 			<div>
@@ -22,11 +19,8 @@ const Session = ({ sessionLength, sessionDecrement, sessionIncrement }) => {
 					<span id="session-length">{displaySessionLength}</span> minutes
 				</p>
 			</div>
-			<button id="session-increment">
-				<PlusIcon
-					className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700"
-					onClick={sessionIncrement}
-				/>
+			<button id="session-increment" onClick={sessionIncrement}>
+				<PlusIcon className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700" />
 			</button>
 		</div>
 	);
