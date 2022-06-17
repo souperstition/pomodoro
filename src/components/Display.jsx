@@ -2,7 +2,7 @@ import { ReactComponent as StartIcon } from './icons/startIcon.svg';
 import { ReactComponent as StopIcon } from './icons/stopIcon.svg';
 import { ReactComponent as RefreshButton } from './icons/refreshButton.svg';
 
-const TimeLeft = ({ isRunning, handlePlay, handleReset, timeFormatter }) => {
+const TimeLeft = ({ isRunning, handlePlay, handleReset, timeFormatter, title }) => {
 	return (
 		<div className="w-full text-3xl flex flex-col items-center gap-5">
 			<button className="self-end mr-5 mb-5" onClick={handleReset} id="reset">
