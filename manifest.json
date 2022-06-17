@@ -1,0 +1,8 @@
+{
+	"short_name": "Pomodoro Clock",
+	"name": "A pomodoro timer built using React and styled using Tailwind CSS.",
+	"start_url": ".",
+	"display": "standalone",
+	"theme_color": "#000000",
+	"background_color": "#ffffff"
+}
