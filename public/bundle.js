@@ -31125,7 +31125,7 @@ var FCC_Global = (function(e) {
 																		f()
 																	);
 																case 7:
-																	return y(), (r.next = 10), ee(1500);
+																	return y(), (r.next = 10), ee(3000);
 																case 10:
 																	return (
 																		i(),
@@ -31141,7 +31141,7 @@ var FCC_Global = (function(e) {
 																			'Default timer label was not properly reset '
 																		),
 																		(r.next = 16),
-																		ee(1500)
+																		ee(2000)
 																	);
 																case 16:
 																	a.assert.strictEqual(

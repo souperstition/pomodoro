@@ -1,31 +1,26 @@
 import { ReactComponent as PlusIcon } from './icons/plusIcon.svg';
 import { ReactComponent as MinusIcon } from './icons/minusIcon.svg';
 
-const Break: React.FC<Props> = ({ breakDisplay, breakDecrement, breakIncrement }) => {
+const Session = ({ sessionLength, sessionDecrement, sessionIncrement }) => {
 	return (
 		<div className="w-1/2 flex justify-center items-center gap-x-2" role="group">
-			<button id="break-decrement" onClick={breakDecrement}>
+			<button id="session-decrement" onClick={sessionDecrement}>
 				<MinusIcon className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700" />
 			</button>
+
 			<div>
-				<p className="text-center font-bold" id="break-label">
-					Break:
+				<p className="text-center font-bold" id="session-label">
+					Study for:
 				</p>
 				<p className="text-center mt-1">
-					<span id="break-length">{breakDisplay}</span> minutes
+					<span id="session-length">{sessionLength}</span> minutes
 				</p>
 			</div>
-			<button id="break-increment" onClick={breakIncrement}>
+			<button id="session-increment" onClick={sessionIncrement}>
 				<PlusIcon className="cursor-pointer transition-colors duration-300 text-amber-500 hover:text-amber-700" />
 			</button>
 		</div>
 	);
 };
 
-type Props = {
-	breakDisplay: number;
-	breakDecrement: () => void;
-	breakIncrement: () => void;
-};
-
-export default Break;
+export default Session;
