@@ -5,45 +5,44 @@ import Break from './components/Break';
 import Session from './components/Session';
 
 const App = () => {
+	// VARIABLES
 	const [ breakLength, setBreakLength ] = useState(5);
 	const [ sessionLength, setSessionLength ] = useState(25);
 	const [ timeLeft, setTimeLeft ] = useState(1500);
 	const [ sessionType, setSessionType ] = useState('SESSION');
-
 	const [ isRunning, setIsRunning ] = useState(false);
+	const timeFormatter = () => {
+		const minutes = Math.floor(timeLeft / 60);
+		const seconds = timeLeft - minutes * 60;
+		const displaySeconds = seconds < 10 ? '0' + seconds : seconds;
+		const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+		return `${displayMinutes}:${displaySeconds}`;
+	};
+	const title = sessionType === 'SESSION' ? 'Study' : 'Break';
 
-	const timer = setTimeout(() => {
-		if (timeLeft && isRunning) {
-			setTimeLeft(timeLeft - 1);
-		}
-	}, 1000);
-
-	const handleBreakIncrease = () => {
+	// HANDLE BUTTON CLICKS
+	const handleBreakIncrement = () => {
 		if (breakLength < 60) {
 			setBreakLength(breakLength + 1);
 		}
 	};
-
-	const handleBreakDecrease = () => {
+	const handleBreakDecrement = () => {
 		if (breakLength > 1) {
 			setBreakLength(breakLength - 1);
 		}
 	};
-
-	const handleSessionIncrease = () => {
+	const handleSessionIncrement = () => {
 		if (sessionLength < 60) {
 			setSessionLength(sessionLength + 1);
 			setTimeLeft(timeLeft + 60);
 		}
 	};
-
-	const handleSessionDecrease = () => {
+	const handleSessionDecrement = () => {
 		if (sessionLength > 1) {
 			setSessionLength(sessionLength - 1);
 			setTimeLeft(timeLeft - 60);
 		}
 	};
-
 	const handleReset = () => {
 		clearTimeout(timer);
 		setIsRunning(false);
@@ -55,12 +54,17 @@ const App = () => {
 		audio.pause();
 		audio.currentTime = 0;
 	};
-
 	const handlePlay = () => {
 		clearTimeout(timer);
 		setIsRunning(!isRunning);
 	};
 
+	// TIMER FUNCTIONS
+	const timer = setTimeout(() => {
+		if (timeLeft && isRunning) {
+			setTimeLeft(timeLeft - 1);
+		}
+	}, 1000);
 	const resetTimer = () => {
 		const audio = document.getElementById('beep');
 		if (!timeLeft && sessionType === 'SESSION') {
@@ -75,7 +79,6 @@ const App = () => {
 			audio.currentTime = 0;
 		}
 	};
-
 	const clock = () => {
 		if (isRunning) {
 			resetTimer();
@@ -84,7 +87,6 @@ const App = () => {
 			clearTimeout(timer);
 		}
 	};
-
 	useEffect(
 		() => {
 			clock();
@@ -92,16 +94,6 @@ const App = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[ isRunning, timeLeft, timer ]
 	);
-
-	const timeFormatter = () => {
-		const minutes = Math.floor(timeLeft / 60);
-		const seconds = timeLeft - minutes * 60;
-		const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
-		const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-		return `${formattedMinutes}:${formattedSeconds}`;
-	};
-
-	const title = sessionType === 'SESSION' ? 'Study' : 'Break';
 
 	return (
 		<div className="flex h-screen mx-0 w-screen items-center justify-center bg-slate-800">
@@ -117,14 +109,14 @@ const App = () => {
 					<Break
 						isRunning={isRunning}
 						breakLength={breakLength}
-						handleBreakDecrease={handleBreakDecrease}
-						handleBreakIncrease={handleBreakIncrease}
+						handleBreakDecrement={handleBreakDecrement}
+						handleBreakIncrement={handleBreakIncrement}
 					/>
 					<Session
 						isRunning={isRunning}
 						sessionLength={sessionLength}
-						handleSessionDecrease={handleSessionDecrease}
-						handleSessionIncrease={handleSessionIncrease}
+						handleSessionDecrement={handleSessionDecrement}
+						handleSessionIncrement={handleSessionIncrement}
 					/>
 				</div>
 			</div>
