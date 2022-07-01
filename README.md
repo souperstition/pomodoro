@@ -59,7 +59,12 @@ Using Tailwind's [flex](https://tailwindcss.com/docs/flex) containers, I ended u
 
 ![screenshot](https://github.com/souperstition/pomodoro/blob/master/img/screenshot.png?raw=true)
 
+My components were structured as follows:
 
+| | 
+| --- |
+| All logic and state housed in App.js, components handle only display |
+| ![components tree](https://github.com/souperstition/pomodoro/blob/master/img/pomodoro-components.png?raw=true)
 
 In order to pass FCC tests, I had to use the outdated render method as shown here:
 
